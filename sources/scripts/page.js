@@ -5,7 +5,7 @@
 'use strict'
 
 // REQUIRE
-
+const fs = require('fs')
 
 
 // CONSTANT
@@ -42,17 +42,16 @@ function Page (text = '', path = null){
         }
 
         //If it's a load file => check if the text is the same
-        //return this.load() !== this.text
+        return this.load() !== this.text
     }
     
     this.commit = (text = reporter.textarea.value) => {
         this.text = text
-        console.log(text)
     }
 
-    this.load = function () {
+    this.load = () => {
         if (!this.path) { return }
-        
+
         let data
         try {
           data = fs.readFileSync(this.path, 'utf-8')
@@ -63,7 +62,7 @@ function Page (text = '', path = null){
         return data
       }
 
-    this.reload = function (force = false) {
+    this.reload = (force = false) =>{
         if (!this.path) { return }
     
         if (!this.has_changes() || force) {

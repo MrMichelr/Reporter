@@ -8,6 +8,7 @@
 const Project = require('./scripts/project')
 const Go = require('./scripts/go')
 const AppMenu = require('./scripts/menu')
+const Navigator = require('./scripts/navigator')
 
 
 // CONSTANT
@@ -19,6 +20,7 @@ function Reporter (){
     this.project = new Project()
     this.go = new Go()
     this.menu = new AppMenu()
+    this.navigator = new Navigator()
 
     // VARIABLES
     this.textarea = document.createElement('textarea')
@@ -85,7 +87,7 @@ function Reporter (){
         this.textarea.value = text || ''
         this.update()
     }
-    this.reload = function (force = false) {
+    this.reload = (force = false) => {
         this.project.page().reload(force)
         this.load(this.project.page().text)
     }

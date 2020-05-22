@@ -33,7 +33,7 @@ app.on('ready', () => {
 
     // and load the index.html of the app.
     app.win.loadURL(`file://${__dirname}/sources/index.html`)
-    app.inspect()
+    app.Debug()
 
     // Quit when all windows are closed.
     app.win.on('window-all-closed', () => {
@@ -46,7 +46,7 @@ app.on('ready', () => {
   })
 })
 
-app.inspect = () => {
+app.Debug = () => {
     app.win.toggleDevTools()
 }
   

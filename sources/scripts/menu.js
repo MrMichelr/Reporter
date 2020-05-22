@@ -52,6 +52,7 @@ const template = [
               icon: '',
               click: () => { reporter.project.open() }
           },
+          { type: "separator" },
           {
               label: 'Save',
               accelerator: 'CmdOrCtrl+S',
@@ -64,6 +65,7 @@ const template = [
               icon: '',
               click: () => { reporter.project.save_as() }
           },
+          { type: "separator" },
           {
               label: 'Discard Change',
               accelerator: '',
@@ -72,7 +74,7 @@ const template = [
           },
           {
               label: 'Close File',
-              accelerator: '',
+              accelerator: 'CmdOrCtrl+W',
               icon: '',
               click: () => { reporter.project.close() }
           },
@@ -85,14 +87,57 @@ const template = [
       ]
     },
 
+    //{ role: 'Edit' }
+    {
+        label: 'Edit',
+        submenu: [
+            {
+                label: "Undo",
+                accelerator: "CmdOrCtrl+Z",
+                role: "undo"
+            },
+            {
+                label: "Redo",
+                accelerator: "CmdOrCtrl+Shif+Z",
+                role: "redo"
+            },
+            { type: "separator" },
+            {
+                label: "Cut",
+                accelerator: "CmdOrCtrl+X",
+                role: "cut"
+            },
+            {
+                label: "Copy",
+                accelerator: "CmdOrCtrl+C",
+                role: "copy"
+            },
+            {
+                label: "Paste",
+                accelerator: "CmdOrCtrl+V",
+                role: "paste"
+            },
+            {
+                label: "Select All",
+                accelerator: "CmdOrCtrl+A",
+                role: "selectall"
+            }
+        ]
+    },
+
     //{ role: 'Help' }
     {
         label: 'Help',
         role: 'help',
         submenu: [
+            { type: "separator" },
             {
                 label: 'Learn more',
                 click: () => { shell.openExternal('https://github.com/MrMichelr') }
+            },
+            {
+                label: 'Join me on Twitter',
+                click: () => { shell.openExternal('https://twitter.com/MrMichelr') }
             }
         ]
     }

@@ -33,6 +33,18 @@ function Project (){
 
     this.start = () => {
         // If previous files => Load it
+        if (localStorage.hasOwnProperty('paths')) {
+            //Check if paths exist
+            if (isJSON(localStorage.getItem('paths'))) {
+                //There something in it ?
+                const paths = JSON.parse(localStorage.getItem('paths'))
+
+                for (const id in paths) {
+                  reporter.project.add(paths[id])
+                }
+
+              }
+        }
 
         // If nothing in the queue of pages => create the default doc
         if (this.pages.length === 0) {
@@ -71,9 +83,29 @@ function Project (){
         this.add()
         reporter.reload()
 
-        setTimeout(() => {left.textarea_el.focus() }, 200) // Add a page change
+        setTimeout(() => {reporter.navigator.next_page(), reporter.textarea.focus() }, 200) // Add a page change
     }
-    this.open = () => {}
+    this.open = () => {
+        console.log('Open Pages')
+
+        const paths = dialog.showOpenDialogSync(app.win, {
+            title: "Open a file",
+            properties: ["openFile", "multiSelections"],
+            filters: [
+                { name: "MR Text", extensions: ['mrtxt'] },
+                { name: 'All Files', extensions: ['*'] }
+            ]
+        })
+
+        if (!paths) { console.log('Nothing to load'); return }
+
+        for (const id in paths) {
+            console.log(id)
+            this.add(paths[id])
+        }
+
+        setTimeout(() => { reporter.navigator.next_page(); reporter.update() }, 200)
+    }
     this.save = () => {
         console.log('Save Page')
 
@@ -105,8 +137,6 @@ function Project (){
         // Create a Window to save the page
         const page = this.page()
         const path = dialog.showSaveDialogSync(app.win, {
-            title: "Save a MR Text",
-            message: "message test", //MacOS only
             properties: ["createDirectory"]
         })
 
@@ -135,19 +165,137 @@ function Project (){
         })
 
     }
-    this.close = () => {}
-    this.quit = () => {}
-    this.quit_dialog = () => {}
+    this.close = () => {
+        if (this.pages.length === 1) { console.warn('Cannot close'); return }
+
+        if (this.page().has_changes()) {
+            
+            const response = dialog.showMessageBoxSync(app.win, {
+                type: "question",
+                buttons: ['Yes', 'No'],
+                defaultId: 1,
+                title: "Are you sure?",
+                message: "All your content will be lost",
+                //icon: `${app.getAppPath()}/icon.png`,
+            })
+
+            if (response !== 0) {
+                // IF reponse = NO
+                return
+            }
+        }
+
+        this.force_close()
+        localStorage.setItem('paths', JSON.stringify(this.paths()))
+    }
+    this.force_close = () => {
+        if (this.pages.length === 1) { this.quit(); return }
+
+        console.log('Closing..')
+
+        // Delete the index of the page from the array
+        this.pages.splice(this.index, 1)
+        reporter.go.to_page(this.index - 1)
+    }
+    this.discard = () => {
+        if (this.page().has_changes()) {
+            
+            const response = dialog.showMessageBoxSync(app.win, {
+                type: "question",
+                buttons: ['Yes', 'No'],
+                defaultId: 1,
+                title: "Are you sure?",
+                message: "Are you sure you want to discard changes?",
+                //icon: `${app.getAppPath()}/icon.png`,
+            })
+
+            if (response === 0) {
+                // IF reponse = Yes
+                reporter.reload(true)
+            }
+        }
+    }
+    this.quit = () => {
+        if (this.has_changes()) {
+            this.quit_dialog()
+          } else {
+            app.exit()
+          }
+    }
+    this.quit_dialog = () => {
+        const reponse = dialog.showMessageBoxSync(app.win, {
+            type: "warning",
+            buttons: ['Yes', 'No'],
+            defaultId: 1,
+            title: "Are you sure?",
+            message: "Unsaved data will be lost. Are you sure you want to quit?",
+            icon: `${app.getAppPath()}/icon.png`,
+        })
+
+        if (response === 0) {
+            // IF reponse = Yes
+            app.exit()
+        }
+    }
 
     // ==============================================
     // OTHER Functions
     // ==============================================
 
-    this.has_changes = function () {
+    this.has_changes = () => {
         for (const id in this.pages) {
           if (this.pages[id].has_changes()) { return true }
         }
         return false
+    }
+    this.add = (path = null) => {
+        console.log(`Adding page(${path})`)
+
+        this.remove_EmptyDoc()
+        let page = new Page()
+
+        if (path) {
+            if (this.paths().indexOf(path) > -1) { 
+                //If path = a path in our library of path
+                console.warn(`Already open(skipped): ${path}`); 
+                return 
+            }
+            // If path exist => open it
+            page = new Page(this.load(path), path)
+        }
+
+        this.pages.push(page)
+        reporter.go.to_page(this.pages.length - 1)
+
+        //Add a path in our library
+        console.log(this.paths())
+        //localStorage.setItem('paths', JSON.stringify(this.paths()))
+    }
+    this.load = function (path) {
+        console.log(`Load: ${path}`)
+    
+        let data
+        try {
+          data = fs.readFileSync(path, 'utf-8')
+        } catch (err) {
+          console.warn(`Could not load ${path}`)
+          return
+        }
+        return data
+      }
+    this.remove_EmptyDoc = function () {
+        for (const id in this.pages) {
+          const page = this.pages[id]
+          if (page.text === new EmptyDoc().text) {
+            this.pages.splice(0, 1)
+            return
+          }
+        }
+    }
+
+    function isJSON (text) {
+         try { JSON.parse(text); return true } 
+         catch (error) { return false } 
     }
 
 
