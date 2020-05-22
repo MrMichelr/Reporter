@@ -55,12 +55,12 @@ function Project (){
 
     this.update = () => {
         // If no page => Missing page => return;
+        if (!this.page()) { console.warn('Missing page'); return }
         
         // Commit the text in the actual doc
         this.page().commit(reporter.textarea.value)
         
     }
-
     this.page = () => {
         return this.pages[this.index]
       }
@@ -269,7 +269,7 @@ function Project (){
 
         //Add a path in our library
         console.log(this.paths())
-        //localStorage.setItem('paths', JSON.stringify(this.paths()))
+        localStorage.setItem('paths', JSON.stringify(this.paths()))
     }
     this.load = function (path) {
         console.log(`Load: ${path}`)

@@ -84,7 +84,15 @@ const template = [
               icon: '',
               click: () => { reporter.project.force_close() }
           },
-      ]
+          { type: "separator" },
+          {
+            label: 'Reset Recent Document',
+            accelerator: 'CmdOrCtrl+Backspace',
+            icon: '',
+            click: () => { reporter.reset()}
+          } 
+        
+        ]
     },
 
     //{ role: 'Edit' }
