@@ -1,0 +1,12 @@
+{
+  "name": "reporter",
+  "productName": "Reporter",
+  "version": "0.0.1",
+  "description": "text editor",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Michel Rodriguez",
+  "license": "MIT"
+}
