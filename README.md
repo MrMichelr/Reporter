@@ -2,16 +2,18 @@
 
 Reporter is a **minimalist plain text editor** based on [Left](http://github.com/hundredrabbits/Left) for educationnal purpose.
 
+Some other inspirations : [Bear](https://bear.app/), [Transno](https://transno.com/), [Typora](https://typora.io/), [Byword](https://bywordapp.com/), [Zettlr](https://www.zettlr.com/)
+
 ## Change
 
 ### TO-DO
-- [] change the textarea-centred (maybe a html contenteditable ?)
-- [] Find how to open new window (preferences)
-- [] Add more feedback to the user (formating the text)
-- [] Cloud saving (cross-platform ?)
+- [ ] change the textarea-centred (maybe a html contenteditable ?)
+- [ ] Find how to open new window (preferences)
+- [ ] Add more feedback to the user (formating the text)
+- [ ] Cloud saving (cross-platform ?)
 - [x] Support my own extension (*.mrtxt)
-- [] Add icon
-- [] Add UI
+- [ ] Add icon
+- [ ] Add UI
 
 
 
@@ -30,3 +32,6 @@ npm start
 
 - See the [License](LICENSE.md) file for license rights and limitations (MIT).
 - Pull Requests are welcome!
+
+**note**
+- Github [Markdown](https://guides.github.com/features/mastering-markdown/)
