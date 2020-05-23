@@ -23,7 +23,7 @@ function Go (){
     //  METHODS
     // ============================================================================================================
 
-    this.to = (from, to) => {
+    this.to = (from, to, scroll = true) => {
 
         //If we know the begining and the end of the textarea => select a range
         if (reporter.textarea.setSelectionRange) {
@@ -31,6 +31,10 @@ function Go (){
         }
 
         reporter.textarea.focus()
+
+        if (scroll) {
+            this.scroll_to(from, to)
+        }
 
         return from === -1 ? null : from // If from is -1 null else return from
     }
@@ -64,7 +68,42 @@ function Go (){
         reporter.go.to_line(line)
         reporter.update()
     }
-
+    this.scroll_to = (from, to) => {
+        const textVal = reporter.textarea.value
+        const div = document.createElement('div')
+        div.innerHTML = textVal.slice(0, to)
+        document.body.appendChild(div)
+        animateScrollTo(reporter.textarea, div.offsetHeight - 60, 200)
+        div.remove()
+    }
+    function animateScrollTo (element, to, duration) {
+        const start = element.scrollTop
+        const change = to - start
+        let currentTime = 0
+        const increment = 20 // Equal to line-height
+    
+        const animate = function () {
+          currentTime += increment
+          const val = Math.easeInOutQuad(currentTime, start, change, duration)
+          element.scrollTop = val
+          if (currentTime < duration) {
+            requestAnimationFrame(animate, increment)
+          }
+        }
+        requestAnimationFrame(animate)
+      }
+    
+      // t = current time
+      // b = start value
+      // c = change in value
+      // d = duration
+    
+      Math.easeInOutQuad = function (t, b, c, d) {
+        t /= d / 2
+        if (t < 1) return c / 2 * t * t + b
+        t--
+        return -c / 2 * (t * (t - 2) - 1) + b
+      }
     
     function clamp (v, min, max) { return v < min ? min : v > max ? max : v } // Math library ?
 }

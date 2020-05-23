@@ -271,7 +271,7 @@ function Project (){
         console.log(this.paths())
         localStorage.setItem('paths', JSON.stringify(this.paths()))
     }
-    this.load = function (path) {
+    this.load = (path) => {
         console.log(`Load: ${path}`)
     
         let data
@@ -283,7 +283,7 @@ function Project (){
         }
         return data
       }
-    this.remove_EmptyDoc = function () {
+    this.remove_EmptyDoc = () => {
         for (const id in this.pages) {
           const page = this.pages[id]
           if (page.text === new EmptyDoc().text) {
@@ -291,6 +291,9 @@ function Project (){
             return
           }
         }
+    }
+    this.reset = () => {
+        localStorage.clear()
     }
 
     function isJSON (text) {

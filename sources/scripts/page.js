@@ -46,7 +46,7 @@ function Page (text = '', path = null){
     }
     
     this.commit = (text = reporter.textarea.value) => {
-        this.text = this.parsemr(text)
+        this.text = text
     }
 
     this.load = () => {
@@ -70,5 +70,32 @@ function Page (text = '', path = null){
           this.commit(this.load())
         }
       }
+
+    this.anchors = function () {
+        const a = []
+        const lines = this.text.split(BACK)
+        for (const id in lines) {
+          const line = lines[id].trim()
+          if (line.substr(0, 2) === '##') {
+               a.push({ 
+                   id: a.length, 
+                   text: line.replace('##', '').trim(), 
+                   line: parseInt(id), type: 'subheader' 
+                }) 
+            } else if (line.substr(0, 1) === '#') { 
+                a.push({ 
+                    id: a.length, 
+                    text: line.replace('#', '').trim(), 
+                    line: parseInt(id), type: 'header' 
+                }) 
+            } else if (line.substr(0, 2) === '--') {
+                 a.push({ 
+                     id: a.length, 
+                     text: line.replace('--', '').trim(), 
+                     line: parseInt(id), 
+                     type: 'comment' }) }
+        }
+        return a
+    }
 }
 module.exports = Page

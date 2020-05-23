@@ -33,6 +33,7 @@ function Reporter (){
     this.install = (host = document.getElementsByTagName("main")[0]) => {
         //Install Menu
         this.menu.install()
+        this.navigator.install(host)
 
         // Add a text area inside our main
         host.appendChild(this.textarea)
@@ -86,6 +87,7 @@ function Reporter (){
         console.log (this.selected())
 
         // Update dependencies
+        this.navigator.update()
         this.project.update()
     }
 
@@ -101,6 +103,7 @@ function Reporter (){
     this.reset = () => {
         //this.theme.reset()
         //this.font.reset()
+        this.project.reset()
         this.update()
     }
 
