@@ -1,16 +1,18 @@
 # Reporter
 
-Reporter is a **minimalist plain text editor** based on [Left](http://github.com/hundredrabbits/Left) for educationnal purpose.
+Reporter is a **minimalist plain text editor**. At the begining, it was based on [Left](http://github.com/hundredrabbits/Left) for educationnal purpose. I try to personalize it with my vision 😄. You can see some plan below
 
-Some other inspirations : [Bear](https://bear.app/), [Transno](https://transno.com/), [Typora](https://typora.io/), [Byword](https://bywordapp.com/), [Zettlr](https://www.zettlr.com/)
+Some other inspirations : [Bear](https://bear.app/), [Transno](https://transno.com/), [Typora](https://typora.io/), [Byword](https://bywordapp.com/), [Zettlr](https://www.zettlr.com/), [Abricotine](https://github.com/brrd/Abricotine), [Caret](https://caret.io/)
 
 ## Change
 
-### TO-DO
-- [ ] change the textarea-centred (maybe a html contenteditable ?)
+### Must do
+
+/!\ Reminder, the goal is to be minimalist so, every features is not a feature but an essential thing
+
 - [ ] Find how to open new window (preferences)
-- [ ] Add more feedback to the user (formating the text)
-- [ ] Cloud saving (cross-platform ?)
+- [ ] What You See Is What You Mean
+- [ ] "Find & Replace"
 - [ ] Add icon for my extension
 - [ ] Add icon
 - [ ] Add UI
@@ -19,6 +21,16 @@ Some other inspirations : [Bear](https://bear.app/), [Transno](https://transno.c
 - [x] Add Basic functions (cut, copy, paste, select)
 - [x] Can Edit text
 
+### Should do
+
+- [ ] Autocompletion
+- [ ] Spell checker
+- [ ] Import / Export
+- [ ] Themes
+- [ ] Go to (fast jump between docs)
+- [ ] Focus mode (highlight current paragraph)
+- [ ] Auto-save option
+- [ ] Code coloration
 
 
 ## Install & Run

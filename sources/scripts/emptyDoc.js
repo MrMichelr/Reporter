@@ -1,7 +1,5 @@
 /**
- * This is the project controller
- * Save, load, new, etc.
- * It's here ;)
+ * This is the Default doc
  */
 
 'use strict'
@@ -20,7 +18,7 @@ function EmptyDoc (){
 
     // VARIABLES
     this.path = null
-    this.text = ''
+    this.text = "Hello World"
     
     
 
@@ -28,10 +26,10 @@ function EmptyDoc (){
     //  METHODS
     // ============================================================================================================
 
-    Page.call(this, "Hello World", this.path)
+    Page.call(this, this.text, this.path)
 
     this.name = () => {
-        return 'New Document'
+        return 'Welcome to Reporter'
     }
     this.has_changes = function () {
         return false
