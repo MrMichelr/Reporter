@@ -46,7 +46,7 @@ function Page (text = '', path = null){
     }
     
     this.commit = (text = reporter.textarea.value) => {
-        this.text = text
+        this.text = this.parsemr(text)
     }
 
     this.load = () => {
@@ -62,7 +62,7 @@ function Page (text = '', path = null){
         return data
       }
 
-    this.reload = (force = false) =>{
+    this.reload = (force = false) => {
         if (!this.path) { return }
     
         if (!this.has_changes() || force) {
@@ -70,6 +70,5 @@ function Page (text = '', path = null){
           this.commit(this.load())
         }
       }
-
 }
 module.exports = Page
