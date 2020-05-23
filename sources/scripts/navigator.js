@@ -91,7 +91,7 @@ function Navigator (){
     }
     this._page = function (id, page) {
         // Make the link to the page
-        return `<li class='page ${page.has_changes() ? 'changes' : ''}' onclick='reporter.go.to_page(${id})'>${page.name()}</li>`
+        return `<li class='page ${page.has_changes() ? 'changes' : ''}' onclick='reporter.go.to_page(${id})'>${page.name().replace(/.mrtxt/, '')}</li>`
     }
     this._anchor = function (page_id, current, anchor, anchors) {
         // Make the link to the anchor
@@ -110,6 +110,9 @@ function Navigator (){
         const naviOverflowPerc = Math.max(0, (reporter.navi.el.scrollHeight / window.innerHeight) - 1)
     
         reporter.navi.el.style.transform = 'translateY(' + (-100 * scrollPerc * naviOverflowPerc) + '%)'
+    }
+    this.toggle = () => {
+        document.getElementsByTagName("nav")[0].classList.toggle('hide')
     }
 
     function clamp (v, min, max) { return v < min ? min : v > max ? max : v } // Math library ?
