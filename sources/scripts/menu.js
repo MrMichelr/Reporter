@@ -11,7 +11,6 @@ const { app, Menu } = remote
 
 
 // CONSTANT
-const BACK = "\n"
 const isMac = process.platform === 'darwin'
 const template = [
     // { role: 'appMenu' }
@@ -48,7 +47,7 @@ const template = [
               click: () => { reporter.project.new() }
           },
           {
-              label: 'Open…',
+              label: 'Open',
               accelerator: 'CmdOrCtrl+O',
               icon: '',
               click: () => { reporter.project.open() }
@@ -61,7 +60,7 @@ const template = [
               click: () => { reporter.project.save() }
           },
           {
-              label: 'Save As…',
+              label: 'Save As ...',
               accelerator: 'CmdOrCtrl+Shift+S',
               icon: '',
               click: () => { reporter.project.save_as() }
@@ -126,136 +125,11 @@ const template = [
                 accelerator: "CmdOrCtrl+V",
                 role: "paste"
             },
-            { type: "separator" },
-            {
-                label: "Find",
-                accelerator: "CmdOrCtrl+F",
-                click: () => {}
-            },
-            {
-                label: "Replace",
-                accelerator: "CmdOrCtrl+Shift+F",
-                click: () => {}
-            },
-            { type: "separator" },
-            {
-                label: "Add a Linebreak",
-                accelerator: 'CmdOrCtrl+Shift+Enter',
-                click: () => {reporter.go.to_next(BACK, false); reporter.inject(BACK)}
-            } 
-        ]
-    },
-
-    //{ role: 'Selection' }
-    {
-        label: 'Selection',
-        submenu: [
             {
                 label: "Select All",
                 accelerator: "CmdOrCtrl+A",
                 role: "selectall"
-            },
-            { type: "separator" },
-            {
-                label: "Copy Line Up",
-                accelerator: 'Alt+Shift+Up',
-                enabled: false, // make it grey
-                click: () => {}
-            },  
-            {
-                label: "Copy Line Down",
-                accelerator: 'Alt+Shift+Up',
-                enabled: false, //make it grey
-                click: () => {}
-            },
-            { type: "separator" },
-            {
-                label: "Open URL",
-                accelerator: 'CmdOrCtrl+B',
-                click: () => {reporter.open_url()}
             }
-        ]
-    },
-
-    //{ role: 'View' }
-    {
-        label: 'View',
-        submenu: [
-            {
-                label: "Show Navigation Bar",
-                accelerator: "CmdOrCtrl+<",
-                type: "checkbox",
-                checked: true,
-                click: () => {reporter.navigator.toggle()}
-            },
-            { type: "separator" },
-            {
-                label: "Decrease Font size",
-                accelerator: 'CmdOrCtrl+-',
-                click: () => {},
-                enabled: false, //make it grey
-            },  
-            {
-                label: "Increase Font size",
-                accelerator: 'CmdOrCtrl+numadd',
-                click: () => {},
-                enabled: false, //make it grey
-            },  
-            {
-                label: "Reset Font size",
-                click: () => {},
-                enabled: false, //make it grey
-            },  
-            { type: "separator" },
-            {
-                label: "Appearance",
-                submenu: [
-                    {
-                        label: "Theme…",
-                        enabled: false, //make it grey
-                    }
-                ]
-            }
-        ]
-    },
-
-    //{ role: 'Help' }
-    {
-        label: 'Window',
-        submenu: [
-            {
-                label: "Minimize",
-                accelerator: "CmdOrCtrl+M",
-                role: "minimize"
-            },
-            {
-                label: "Toggle Fullscreen",
-                accelerator: "CmdOrCtrl+Enter",
-                role: "togglefullscreen"
-            },
-            { type: "separator" },
-            {
-                label: "Zoom In",
-                accelerator: "",
-                role: "zoomIn"
-            },
-            {
-                label: "Zoom Out",
-                accelerator: "",
-                role: "zoomOut"
-            },
-            {
-                label: "Reset Zoom",
-                accelerator: "",
-                role: "resetZoom"
-            },
-            { type: "separator" },
-            {
-                label: "Bring All to Front",
-                accelerator: "",
-                role: "front"
-            },
-            
         ]
     },
 
@@ -264,10 +138,6 @@ const template = [
         label: 'Help',
         role: 'help',
         submenu: [
-            {
-                label: 'Go to Left Page',
-                click: () => { shell.openExternal('https://hundredrabbits.itch.io/left') }
-            },
             { type: "separator" },
             {
                 label: 'Learn more',

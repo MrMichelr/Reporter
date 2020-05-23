@@ -9,7 +9,6 @@ const Project = require('./scripts/project')
 const Go = require('./scripts/go')
 const AppMenu = require('./scripts/menu')
 const Navigator = require('./scripts/navigator')
-const Informator = require('./scripts/informator')
 
 
 // CONSTANT
@@ -22,7 +21,6 @@ function Reporter (){
     this.go = new Go()
     this.menu = new AppMenu()
     this.navigator = new Navigator()
-    this.informator = new Informator()
 
     // VARIABLES
     this.textarea = document.createElement('textarea')
@@ -36,7 +34,6 @@ function Reporter (){
         //Install Menu
         this.menu.install()
         this.navigator.install(host)
-        this.informator.install(host)
 
         // Add a text area inside our main
         host.appendChild(this.textarea)
@@ -90,9 +87,8 @@ function Reporter (){
         console.log (this.selected())
 
         // Update dependencies
-        this.project.update()
         this.navigator.update()
-        this.informator.update()
+        this.project.update()
     }
 
     this.load = (text) => {
@@ -131,7 +127,7 @@ function Reporter (){
         for (const id in words) {
             //search a web identifier
             if (words[id].indexOf("://") > -1 || words[id].indexOf("www.") > -1){
-                return words[id]
+                return word[id]
             }
         }
         return null
@@ -196,19 +192,9 @@ function Reporter (){
     
         return a
     }
-    this.inject = (characters = '__') => {
-        const pos = this.textarea.selectionStart
-        this.textarea.setSelectionRange(pos, pos)
-        document.execCommand('insertText', false, characters)
-        this.update()
-      }
-    this.open_url = function (target = this.active_url()) {
-        if (!target) { return }
-    
-        //this.select_word(target)
-        setTimeout(() => { require('electron').shell.openExternal(target) }, 500)
+    this.replace_exp = (word) => {
+
     }
-    
 
 }
 module.exports = Reporter

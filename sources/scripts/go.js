@@ -53,6 +53,7 @@ function Go (){
 
         this.to(from, to)
     }
+
     this.to_page = (id = 0, line = 0) => {
         //Check if the active project is between 0 and the number of pages
         reporter.project.index = clamp(parseInt(id), 0, reporter.project.pages.length - 1)
@@ -67,13 +68,6 @@ function Go (){
         reporter.go.to_line(line)
         reporter.update()
     }
-    this.to_next = (str, scroll = true) => {
-        const txtarea = reporter.textarea
-        const text = txtarea.value
-        const range = text.substr(txtarea.selectionStart, text.length - txtarea.selectionStart)
-        const next = txtarea.selectionStart + range.indexOf(BACK)
-        this.to(next, next, scroll)
-      }
     this.scroll_to = (from, to) => {
         const textVal = reporter.textarea.value
         const div = document.createElement('div')
@@ -97,21 +91,19 @@ function Go (){
           }
         }
         requestAnimationFrame(animate)
-    }
+      }
     
-      
+      // t = current time
+      // b = start value
+      // c = change in value
+      // d = duration
     
-    Math.easeInOutQuad = function (t, b, c, d) {
-        // t = current time
-        // b = start value
-        // c = change in value
-        // d = duration
-
+      Math.easeInOutQuad = function (t, b, c, d) {
         t /= d / 2
         if (t < 1) return c / 2 * t * t + b
         t--
         return -c / 2 * (t * (t - 2) - 1) + b
-    }
+      }
     
     function clamp (v, min, max) { return v < min ? min : v > max ? max : v } // Math library ?
 }
