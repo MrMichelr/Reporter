@@ -1,59 +1,51 @@
 'use strict' // For more security
 
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 
-app.win = null
+//Different type of function
+const WindowManager = require('./sources/window-manager');
+
+this.windowManager = new WindowManager()
+
 
 app.on('ready', () => {
     // WHEN THE APP IS RUNNING
+    const windows = this.windowManager.getActiveWindows();
 
-    // Create a window
-    app.win = new BrowserWindow({
-        width: 500,
-        height: 700,
-        minWidth: 360,
-        minHeight: 380,
-        resizable: true,
-        movable: true,
-        minimizable: true,
-        maximizable: true,
-        frame: false,
-        backgroundColor: '#000',
-        title: "Reporter",
-        //icon: path.join(__dirname, { darwin: 'icon.icns', linux: 'icon.png',win32: 'icon.ico' }[process.platform] || 'icon.ico'),
-        skipTaskbar: process.platform === 'darwin',
-        autoHideMenuBar: process.platform === 'darwin',
-        webPreferences: { 
-          zoomFactor: 1.0, 
-          nodeIntegration: true, 
-          backgroundThrottling: false 
-        }
-      })
+    if (windows.length === 0) {
+        this.windowManager.createSplashWindow();
+    } else {
+        this.windowManager.createWindows(windows);
+    }
 
-    // and load the index.html of the app.
-    app.win.loadURL(`file://${__dirname}/sources/index.html`)
-    app.Debug()
-
-    // Quit when all windows are closed.
-    app.win.on('window-all-closed', () => {
-
-        // On macOS it is common for applications and their menu bar
-        // to stay active until the user quits explicitly with Cmd + Q
-        if (process.platform !== 'darwin') {
-            app.quit()
-        }
-  })
 })
 
-app.Debug = () => {
-    app.win.toggleDevTools()
-}
+// Quit when all windows are closed.
+app.on('window-all-closed', () => {
+    // On macOS it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
+})
+
+app.on('activate', () => {
+    const allWindows = BrowserWindow.getAllWindows();
   
-app.toggleFullscreen = () => {
-    app.win.setFullScreen(!app.win.isFullScreen())
-}
-  
-app.toggleMenubar = () => {
-    app.win.setMenuBarVisibility(!app.win.isMenuBarVisible())
-}
+    if (allWindows.length === 0) {
+        this.windowManager.createSplashWindow();
+    } else {
+      allWindows[0].focus();
+    }
+
+});
+
+ipcMain.on('openProject', (event, arg) => {
+    console.log('receive: ' + arg)
+    const res = this.windowManager.openWindow(arg);
+    if (res) this.windowManager.closeSplashWindow();
+
+    event.returnValue = "received";
+    return res;
+})

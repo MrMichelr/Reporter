@@ -8,5 +8,9 @@
     "start": "electron ."
   },
   "author": "Michel Rodriguez",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^9.0.0",
+    "electron-settings": "^3.2.0"
+  }
 }
